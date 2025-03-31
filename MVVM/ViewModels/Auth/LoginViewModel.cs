@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MVVM.ViewModels.Auth
 {
-    public partial class LoginViewModel : BaseViewModel
+    public partial class LoginViewModel : ObservableObject
     {
         private readonly IAuthService _authService;
 
@@ -49,18 +51,18 @@ namespace MVVM.ViewModels.Auth
             }
         }
 
-        private bool CanLogin() => !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password);
+        private bool CanLogin() => !string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(password);
 
         [RelayCommand]
         private async Task ForgotPassword()
         {
-            if (string.IsNullOrWhiteSpace(Email))
+            if (string.IsNullOrWhiteSpace(email))
             {
                 await Shell.Current.DisplayAlert("Error", "Ingrese su correo electrónico", "OK");
                 return;
             }
 
-            var result = await _authService.ForgotPasswordAsync(Email);
+            var result = await _authService.ForgotPasswordAsync(email);
             await Shell.Current.DisplayAlert(
                 result.Success ? "Éxito" : "Error",
                 result.Message,

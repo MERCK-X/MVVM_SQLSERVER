@@ -1,39 +1,47 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
-namespace MVVM.ViewModels.Auth
+namespace MVVM_SQLSERVER.ViewModels.Auth
 {
-    public partial class RegisterViewModel : BaseViewModel
+    public partial class RegisterViewModel : ObservableObject
     {
         private readonly IAuthService _authService;
 
+        // Propiedades con validación
         [ObservableProperty]
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [MinLength(3, ErrorMessage = "Mínimo 3 caracteres")]
         private string nombre;
 
         [ObservableProperty]
+        [Required(ErrorMessage = "El apellido paterno es obligatorio")]
         private string apellidoPaterno;
 
         [ObservableProperty]
         private string apellidoMaterno;
 
         [ObservableProperty]
+        [Required(ErrorMessage = "La fecha de nacimiento es obligatoria")]
         private DateTime fechaNacimiento = DateTime.Now.AddYears(-18);
 
         [ObservableProperty]
+        [Required(ErrorMessage = "El teléfono es obligatorio")]
+        [Phone(ErrorMessage = "Teléfono inválido")]
         private string telefono;
 
         [ObservableProperty]
+        [Required(ErrorMessage = "El email es obligatorio")]
+        [EmailAddress(ErrorMessage = "Email inválido")]
         private string email;
 
         [ObservableProperty]
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        [MinLength(6, ErrorMessage = "Mínimo 6 caracteres")]
         private string password;
 
         [ObservableProperty]
+        [Required(ErrorMessage = "Confirma tu contraseña")]
         private string confirmPassword;
 
         public DateTime MaxDate => DateTime.Now.AddYears(-18);
@@ -46,11 +54,21 @@ namespace MVVM.ViewModels.Auth
         [RelayCommand]
         private async Task Register()
         {
-            if (Password != confirmPassword)
+            ValidateAllProperties();
+
+            if (HasErrors)
+            {
+                await ShowValidationErrors();
+                return;
+            }
+
+            if (password != ConfirmPassword)
             {
                 await Shell.Current.DisplayAlert("Error", "Las contraseñas no coinciden", "OK");
                 return;
             }
+
+            if (IsBusy) return;
 
             try
             {
@@ -58,13 +76,13 @@ namespace MVVM.ViewModels.Auth
 
                 var user = new User
                 {
-                    Nombre = Nombre,
-                    ApellidoPaterno = ApellidoPaterno,
-                    ApellidoMaterno = ApellidoMaterno,
-                    FechaNacimiento = FechaNacimiento,
-                    Telefono = Telefono,
-                    Email = Email,
-                    Password = Password
+                    Nombre = nombre,
+                    ApellidoPaterno = apellidoPaterno,
+                    ApellidoMaterno = apellidoMaterno,
+                    FechaNacimiento = fechaNacimiento,
+                    Telefono = telefono,
+                    Email = email,
+                    Password = password
                 };
 
                 var result = await _authService.RegisterAsync(user);
@@ -89,6 +107,15 @@ namespace MVVM.ViewModels.Auth
         private async Task GoToLogin()
         {
             await Shell.Current.GoToAsync("//Login");
+        }
+
+        private async Task ShowValidationErrors()
+        {
+            var errors = this.GetErrors()
+                .Select(e => e.ErrorMessage)
+                .Where(m => !string.IsNullOrEmpty(m));
+
+            await Shell.Current.DisplayAlert("Error", string.Join("\n", errors), "OK");
         }
     }
 }

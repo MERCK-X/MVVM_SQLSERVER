@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MVVM.ViewModels.Auth
 {
-    public partial class AuthSelectionViewModel : BaseViewModel
+    public partial class AuthSelectionViewModel : ObservableObject
     {
         [RelayCommand]
         private async Task GoToLogin()
