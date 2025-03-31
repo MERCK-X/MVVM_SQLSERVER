@@ -1,6 +1,6 @@
-@MauiApi_HostAddress = http://localhost:5081
+@MAUIAPI_HostAddress = http://localhost:5243
 
-GET {{MauiApi_HostAddress}}/weatherforecast/
+GET {{MAUIAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

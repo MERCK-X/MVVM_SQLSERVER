@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace MauiApi.Controllers;
+namespace MAUIAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]

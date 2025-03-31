@@ -1,4 +1,4 @@
-namespace MauiApi
+namespace MAUIAPI
 {
     public class WeatherForecast
     {
