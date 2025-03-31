@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MVVM_SQLSERVER.Views.Auth.LoginPage"
+             Title="Iniciar Sesión">
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="30">
+            <Entry Placeholder="Correo electrónico" 
+                   Text="{Binding Email}" 
+                   Keyboard="Email"/>
+
+            <Entry Placeholder="Contraseña" 
+                   Text="{Binding Password}" 
+                   IsPassword="True"/>
+
+            <Button Text="Iniciar Sesión" 
+                    Command="{Binding LoginCommand}"
+                    IsEnabled="{Binding IsNotBusy}"/>
+
+            <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                <Label Text="¿Olvidó su contraseña?"/>
+                <Button Text="Click aquí" 
+                        Command="{Binding ForgotPasswordCommand}"
+                        Style="{StaticResource LinkButton}"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                <Label Text="¿Aún no tiene cuenta?"/>
+                <Button Text="Regístrese aquí" 
+                        Command="{Binding GoToRegisterCommand}"
+                        Style="{StaticResource LinkButton}"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
