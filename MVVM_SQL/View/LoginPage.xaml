@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MVVM_SQL.View.LoginPage"
+             Title="Iniciar Sesión">
+    <VerticalStackLayout Padding="20">
+        <Entry Placeholder="Correo" Text="{Binding Email}" />
+        <Entry Placeholder="Contraseña" Text="{Binding Password}" IsPassword="True"/>
+        <Button Text="Iniciar Sesión" Command="{Binding LoginCommand}" />
+        <Button Text="¿Olvidó su contraseña?" Clicked="OnForgotPasswordClicked"/>
+    </VerticalStackLayout>
+</ContentPage>
