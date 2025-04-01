@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MVVM.Models;
 
-namespace MVVM.Data
+namespace MVVM_SQLSERVER.Data
 {
     public class LocalDbContext : DbContext
     {
